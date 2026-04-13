@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./static/style2.css">
+    <title>Movie Info Request Agent</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+</head>
+<body>
+    
+        <nav class="navbar">
+            <div class="logo">
+                <a href="/">MPz4</a>
+            </div>
+            <div class="nav-links">
+                    <a href="{{ url_for('home') }}">Home</a>
+            </div>
+        </nav>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                    {% for category, message in messages %}
+                        <div id="toast" class="toast show {{ category }}">
+                            <p>{{ message }}</p>
+                        </div>
+                    {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <br><br><br><br><br> 
+    <div class="container">
+        <div class="signup_form">
+            <h1>Sign Up</h1> <br> <br>
+            <form method="POST">
+                {{ form.hidden_tag() }}
+
+                {{ form.username.label }}
+                {{ form.username (placeholder = "Username") }}
+                
+                {{ form.email_address.label }}
+                {{ form.email_address(placeholder = "Email Address") }}
+
+                {{ form.password1.label }}
+                {{ form.password1 (placeholder = "Password") }}
+
+                {{ form.password2.label }}
+                {{ form.password2 (placeholder = "Confirm Password") }}
+
+                {{ form.submit(class = "s_btn") }}
+
+                <div class="redirect">
+                <p>Already have an account? <a href="{{ url_for('login') }}">Log in</a></p>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</body>
+<script>
+    const toast = document.getElementById("toast");
+
+    if (toast) {
+        setTimeout(() => {
+            toast.classList.add("show");
+        }, 100);
+
+        setTimeout(() => {
+            toast.classList.remove("show");
+        }, 3000);
+    }
+</script>
+</html>

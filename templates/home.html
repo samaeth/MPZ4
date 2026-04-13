@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./static/style2.css">
+    <title>Movie Info Request Agent</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+</head>
+<body>
+    
+        <nav class="navbar">
+            <div class="logo">
+                <a href="/">MPz4</a>
+            </div>
+            <div class="nav-links">
+                {% if session['username'] %}
+                    <a href="{{ url_for('logout') }}">Logout</a>
+                {% else %}
+                    <a href="{{ url_for('login') }}">Login</a>
+                    <a href="{{ url_for('signup') }}">Sign Up</a>
+                {% endif %}
+            </div>
+        </nav>
+    
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+                {% for category, message in messages %}
+                    <div id="toast" class="toast show {{ category }}">
+                        <p>{{ message }}</p>
+                    </div>
+                {% endfor %}
+        {% endif %}
+    {% endwith %}
+    
+    <div class="container">
+        {% if session['username'] %}
+            <div class="form">
+                <h1>Welcome, {{ session['username'] }}!</h1> <br> <br> <br>
+                <form method="POST">
+                    <label for="movie">What Movie?</label> <br> <br>
+                    <input type="text" name="movie" placeholder="Movie" required> <br> <br> <br>
+
+                    <button type="submit">Get Movie Info</button>
+                </form>
+            </div>
+        {% else %}
+            <div class="form">
+                <h1>Welcome</h1> <br> <br> <br>
+                <form method="POST">
+                    <label for="movie">What Movie?</label> <br> <br>
+                    <input type="text" name="movie" placeholder="Movie" required> <br> <br> <br>
+
+                    <button type="submit">Get Movie Info</button>
+                </form>
+            </div>
+        {% endif %}
+
+        {% if movie %}
+        <h2><u>{{ movie.Title }}</u></h2> <br>
+        
+            <div class="profile">
+                <img src="{{movie.Poster}}" alt="{{ movie.Title }}">
+                <div class="info">
+                    <p><strong>Year:</strong> {{ movie.Year }}</p>
+                    <p><strong>Genre:</strong> {{ movie.Genre }}</p>
+                    <p><strong>Duration:</strong> {{ movie.Runtime }}</p>
+                    <p><strong>Director:</strong> {{ movie.Director }}</p>
+                    <p><strong>Plot:</strong> {{ movie.Plot }}</p>
+                </div>
+            </div>
+        {% endif %}
+
+        {% if movie and movie.Response == 'False' %}
+            <div id= "toast" class="toast">
+                <p>Error: {{ movie.Error }}</p>
+            </div>
+        {% endif %}
+    </div>
+
+    <h3>Recent Searches</h3>
+    <div class="r_container">
+        {% for movie in recent %}
+            <div class="recent">
+                <a href="/?title={{ movie.title }}">
+                    <img src="{{ movie.poster }}" alt="{{ movie.title }}" width="80">
+                    <p>{{ movie.title }}</p>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+<script>
+    const toast = document.getElementById("toast");
+
+    if (toast) {
+        setTimeout(() => {
+            toast.classList.add("show");
+        }, 100);
+
+        setTimeout(() => {
+            toast.classList.remove("show");
+        }, 3000);
+    }
+</script>
+</html>

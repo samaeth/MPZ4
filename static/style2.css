@@ -1,0 +1,219 @@
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #0f172a;
+    color: #e2e8f0;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    padding: 15px 30px;
+    background: #111b31;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    border-radius: 5px;
+}
+
+.logo a {
+    font-size: 22px;
+    font-weight: bold;
+    color: #119da4;
+    text-decoration: none;
+}
+
+.nav-links {
+    display: flex;
+    gap: 20px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #e2e8f0;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+.nav-links a:hover {
+    color: #119da4;
+}
+
+.signup-btn {
+    background: #119da4;
+    padding: 6px 12px;
+    border-radius: 6px;
+    color: white !important;
+}
+
+.signup-btn:hover {
+    background: #16a34a;
+}
+
+.profile {
+    display: flex;
+    gap: 20px;
+    background: rgba(255,255,255,0.05);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    backdrop-filter: blur(10px);
+}
+
+input {
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    background: #1e293b;
+    color: white;
+}
+
+button {
+    padding: 10px 18px;
+    background: #119da4;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+button:hover {
+    background: #119da4;
+    transform: scale(1.05);
+}
+
+img {
+    width: 180px;
+    height: 270px;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+    height: 160px;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+h2 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.container {
+    max-width: 800px;
+    margin: auto;
+}
+
+.form{
+    text-align: center;
+}
+
+.toast {
+    position: fixed;
+    top: 20px;
+    right: -110%;
+    background: #ef4444;
+    color: white;
+    padding: 6px 20px;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    transition: 0.5s ease;
+    z-index: 1000;
+    max-width: 380px;
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.toast.show {
+    right: 20px;
+}
+
+.toast.hide {
+    right: -110%;
+    opacity: 0;
+}
+
+.toast.success {
+    background: #119da4;
+}
+
+.toast.danger {
+    background: #ef4444;
+}
+
+.r_container {
+    display: flex;            
+    gap: 15px;                
+    padding: 10px 0;
+    overflow-x: auto;         
+    scroll-behavior: smooth;  
+}
+
+.recent{
+    flex: 0 0 auto;
+    text-align: center;
+    width: 200px;
+}
+
+.recent a{
+    text-decoration: none;
+    color: #fff;
+}
+
+.recent img {              
+    height: 200px;            
+    object-fit: cover;        
+    border-radius: 10px;
+    transition: transform 0.3s
+}
+
+.recent img:hover {
+    transform: scale(1.1);
+}
+
+.signup_form, .login_form {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    background: rgba(255,255,255,0.05);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    backdrop-filter: blur(10px);
+}
+
+.signup_form form, .login_form form{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.signup_form label, .login_form label{
+    text-align: left;
+    margin-bottom: 4px;
+}
+
+.signup_form input, .login_form input{
+    margin-bottom: 8px;
+}
+
+.s_btn, .l_btn {
+    align-self: center;
+    cursor: pointer;
+    transition: 0.2s;
+    background: #119da4;
+    
+}
+
+.s_btn:hover, .l_btn:hover {
+    background: #119da4;
+    transform: scale(1.05);
+}
+
+.redirect a {
+    color: #119da4;
+    text-decoration: none;
+}
