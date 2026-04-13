@@ -3,4 +3,5 @@ flask-bcrypt
 flask-wtf
 requests
 psycopg2-binary
+email-validator
 gunicorn
