@@ -8,7 +8,7 @@ class SignUpForm(FlaskForm):
         from app import get_db  
         conn = get_db()
         cursor = conn.cursor()
-        cursor.execute("SELECT id FROM users WHERE username = ?", (username.data,))
+        cursor.execute("SELECT id FROM users WHERE username = %s", (username.data,))
         user = cursor.fetchone()
         if user:
             raise ValidationError("Username already exists. Please choose a different one.")
@@ -17,7 +17,7 @@ class SignUpForm(FlaskForm):
         from app import get_db  
         conn = get_db()
         cursor = conn.cursor()
-        cursor.execute("SELECT id FROM users WHERE email_address = ?", (email_address.data,))
+        cursor.execute("SELECT id FROM users WHERE email_address = %s", (email_address.data,))
         user = cursor.fetchone()
         if user:
             raise ValidationError("Email address already registered. Please use a different one or Log In.")
