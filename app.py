@@ -80,7 +80,7 @@ def signup():
             user = cursor.fetchone()
             session['user_id'] = user['id']
             session['username'] = user['username']
-            flash('Account created! Welcome to MPz4.', category='success')
+            flash('Account created!', category='success')
             return redirect(url_for('home'))
 
         except Exception as e:
