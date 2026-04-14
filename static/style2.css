@@ -217,3 +217,16 @@ h2 {
     color: #119da4;
     text-decoration: none;
 }
+.container {
+    width: 60%;
+}
+@media (max-width: 768px) {
+    .container {
+        width: 90%;
+    }
+}
+@media (max-width: 480px) {
+    .container {
+        width: 100%;
+    }
+}
