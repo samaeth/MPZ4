@@ -144,12 +144,11 @@ h2 {
     background: #ef4444;
 }
 
-.r_container {
+.r_container, .alt_container {
     display: flex;            
     gap: 15px;                
     padding: 10px 0;
-    overflow-x: auto;         
-    scroll-behavior: smooth;  
+    overflow-x: auto;           
 }
 
 .recent{
@@ -217,16 +216,13 @@ h2 {
     color: #119da4;
     text-decoration: none;
 }
-.container {
-    width: 60%;
+
+.alt_container::-webkit-scrollbar {
+    display: none;
 }
-@media (max-width: 768px) {
-    .container {
-        width: 90%;
-    }
-}
-@media (max-width: 480px) {
-    .container {
-        width: 100%;
-    }
+
+.alt_container {
+    cursor: grab;
+    user-select: none;
+    scrollbar-width: none;
 }
