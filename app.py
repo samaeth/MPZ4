@@ -4,6 +4,7 @@ from forms import SignUpForm, LoginForm
 import requests
 import psycopg2
 import psycopg2.extras
+import os
 from urllib.parse import quote_plus
 
 app = Flask(__name__)
@@ -11,7 +12,7 @@ app = Flask(__name__)
 API_KEY = '9363b0c3'
 app.secret_key = 'a48a928d5a9f35f11114bba8'
 password = quote_plus('Yvl_S@m@el25')
-DATABASE_URL = f'postgresql://postgres.jpgomwjymnfqrnyhuafv:{password}@aws-0-eu-west-1.pooler.supabase.com:5432/postgres'
+DATABASE_URL = os.environ.get('DATABASE_URL')
 print(DATABASE_URL)
 bcrypt = Bcrypt(app)
 
