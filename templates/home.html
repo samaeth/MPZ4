@@ -66,8 +66,27 @@
                     <p><strong>Genre:</strong> {{ movie.Genre }}</p>
                     <p><strong>Duration:</strong> {{ movie.Runtime }}</p>
                     <p><strong>Director:</strong> {{ movie.Director }}</p>
-                    <p><strong>Plot:</strong> {{ movie.Plot }}</p>
+                    <p>
+                        <strong>Plot:</strong>
+                        <span id="plot-text">{{ movie.Plot }}</span>
+                        <a href="{{ url_for('fullplot') }}" id="plot-toggle" style="color: #119da4; text-decoration: none;">view more</a>
+                    </p>
                 </div>
+            </div>
+        {% endif %}
+    </div>
+
+        {% if alt %}
+            <h3>Alternative Results</h3>
+            <div class="alt_container">
+                {% for movie in alt %}
+                        <div class="recent">
+                            <a href="/?title={{ movie.title }}">
+                                <img src="{{ movie.poster }}" alt="{{ movie.title }}" width="80">
+                                <p>{{ movie.title }}</p>
+                            </a>
+                        </div>
+                {% endfor %}
             </div>
         {% endif %}
 
@@ -76,7 +95,7 @@
                 <p>Error: {{ movie.Error }}</p>
             </div>
         {% endif %}
-    </div>
+
 
     <h3>Recent Searches</h3>
     <div class="r_container">
@@ -102,5 +121,81 @@
             toast.classList.remove("show");
         }, 3000);
     }
+
+const slider = document.querySelector('.alt_container');
+
+if (slider) {
+    let velocity = 0;
+    let animating = false;
+
+    function momentum() {
+        if (Math.abs(velocity) < 0.5) {
+            animating = false;
+            return;
+        }
+        slider.scrollLeft += velocity;
+        velocity *= 0.92;
+        requestAnimationFrame(momentum);
+    }
+
+    slider.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        velocity += e.deltaY * 0.8;
+        if (!animating) {
+            animating = true;
+            requestAnimationFrame(momentum);
+        }
+    });
+
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+
+    slider.addEventListener('mousedown', (e) => {
+        isDown = true;
+        slider.style.cursor = 'grabbing';
+        startX = e.pageX - slider.offsetLeft;
+        scrollLeft = slider.scrollLeft;
+    });
+
+    slider.addEventListener('mouseleave', () => {
+        isDown = false;
+        slider.style.cursor = 'grab';
+    });
+
+    slider.addEventListener('mouseup', () => {
+        isDown = false;
+        slider.style.cursor = 'grab';
+    });
+
+    slider.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - slider.offsetLeft;
+        const walk = (x - startX) * 2;
+        slider.scrollLeft = scrollLeft - walk;
+    });
+    
+}
+const toggle = document.getElementById('plot-toggle');
+const plotText = document.getElementById('plot-text');
+let expanded = false;
+
+if (toggle) {
+    toggle.addEventListener('click', async (e) => {
+        e.preventDefault();
+        if (!expanded) {
+            const res = await fetch(`/fullplot?title={{ movie.Title | urlencode }}`);
+            const fullPlot = await res.text();
+            plotText.textContent = fullPlot;
+            toggle.textContent = 'view less';
+            expanded = true;
+        } else {
+            plotText.textContent = `{{ movie.Plot }}`;
+            toggle.textContent = 'view more';
+            expanded = false;
+        }
+    });
+}
 </script>
 </html>
