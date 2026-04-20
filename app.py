@@ -4,14 +4,14 @@ from forms import SignUpForm, LoginForm
 import requests
 import psycopg2
 import psycopg2.extras
-import os
 from urllib.parse import quote_plus
 
 app = Flask(__name__)
 
 API_KEY = '9363b0c3'
 app.secret_key = 'a48a928d5a9f35f11114bba8'
-DATABASE_URL = os.environ.get('DATABASE_URL')
+password = quote_plus('Yvl_S@m@el25')
+DATABASE_URL = f'postgresql://postgres.jpgomwjymnfqrnyhuafv:{password}@aws-0-eu-west-1.pooler.supabase.com:5432/postgres'
 print(DATABASE_URL)
 bcrypt = Bcrypt(app)
 
@@ -32,6 +32,7 @@ def close_db(error):
 def home():
     movie = None
     title_to_search = None
+    alt = []
 
     if request.method == 'GET':
         title_to_search = request.args.get("title")
@@ -40,9 +41,23 @@ def home():
         title_to_search = request.form.get('movie') 
 
     if title_to_search:
-        url = f'http://www.omdbapi.com/?t={title_to_search}&plot=full&apikey={API_KEY}'
+        url = f'https://www.omdbapi.com/?t={title_to_search}&plot=short&apikey={API_KEY}'
         response = requests.get(url)
         movie = response.json()
+        
+        data_url= f'https://www.omdbapi.com/?s={title_to_search}&apikey={API_KEY}'
+        data_response = requests.get(data_url)
+        data = data_response.json()
+        
+        alt = []
+        
+        if data.get("Response") == "True":
+            for item in data.get("Search", []):
+                alt.append({
+                    "title": item.get("Title"),
+                    "poster": item.get("Poster")
+                })
+
 
         if movie.get("Response") == "True":
             if "recent" not in session:
@@ -57,7 +72,7 @@ def home():
             session["recent"] = session["recent"][:5] 
 
 
-    return render_template('home.html', movie=movie, recent=session.get("recent", []), messages=get_flashed_messages(with_categories=True))
+    return render_template('home.html', movie=movie, recent=session.get("recent", []), messages=get_flashed_messages(with_categories=True), alt=alt)
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -71,12 +86,12 @@ def signup():
             conn = get_db()
             cursor = conn.cursor()
             cursor.execute(
-                "INSERT INTO users (username, password_hash, email_address) VALUES (%s, %s, %s)",
+                "INSERT INTO Users (username, password_hash, email_address) VALUES (%s, %s, %s)",
                 (username, password_hash, email_address)
             )
             conn.commit()
 
-            cursor.execute("SELECT * FROM users WHERE username = %s", (username,))
+            cursor.execute("SELECT * FROM Users WHERE username = %s", (username,))
             user = cursor.fetchone()
             session['user_id'] = user['id']
             session['username'] = user['username']
@@ -102,7 +117,7 @@ def login():
 
         db = get_db()
         cursor = db.cursor()
-        cursor.execute("SELECT * FROM users WHERE username = %s", (username,))
+        cursor.execute("SELECT * FROM Users WHERE username = %s", (username,))
         user = cursor.fetchone()
 
         if user and bcrypt.check_password_hash(user['password_hash'], password):
@@ -125,6 +140,14 @@ def logout():
     session.clear()
     flash('You have been logged out.', category='success')
     return redirect(url_for('home'))
+
+@app.route('/fullplot')
+def fullplot():
+    title = request.args.get('title')
+    url = f'https://www.omdbapi.com/?t={title}&plot=full&apikey={API_KEY}'
+    response = requests.get(url)
+    data = response.json()
+    return data.get('Plot', '')
 
 if __name__ == '__main__':
     app.run(debug=True)
