@@ -8,7 +8,7 @@ class SignUpForm(FlaskForm):
         from app import get_db  
         conn = get_db()
         cursor = conn.cursor()
-        cursor.execute("SELECT id FROM users WHERE username = %s", (username.data,))
+        cursor.execute("SELECT id FROM Users WHERE username = %s", (username.data,))
         user = cursor.fetchone()
         if user:
             raise ValidationError("Username already exists. Please choose a different one.")
@@ -17,7 +17,7 @@ class SignUpForm(FlaskForm):
         from app import get_db  
         conn = get_db()
         cursor = conn.cursor()
-        cursor.execute("SELECT id FROM users WHERE email_address = %s", (email_address.data,))
+        cursor.execute("SELECT id FROM Users WHERE email_address = %s", (email_address.data,))
         user = cursor.fetchone()
         if user:
             raise ValidationError("Email address already registered. Please use a different one or Log In.")
@@ -32,3 +32,12 @@ class LoginForm(FlaskForm):
     username = StringField(label = 'Username', validators=[validators.DataRequired()])
     password = PasswordField(label = 'Password', validators=[validators.DataRequired()])
     submit = SubmitField(label = 'Log In')  
+    
+class ForgotPasswordForm(FlaskForm):
+    email_address = EmailField(label = 'Email Address', validators=[validators.DataRequired(), validators.Email()])
+    submit = SubmitField(label = 'Send Reset Link')
+
+class ResetPasswordForm(FlaskForm):
+    password1 = PasswordField(label = 'New Password', validators=[validators.DataRequired(), validators.Length(min=6, max=100)])
+    password2 = PasswordField(label = 'Confirm Password', validators=[validators.DataRequired(), EqualTo('password1')])    
+    submit = SubmitField(label = 'Reset Password')
