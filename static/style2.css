@@ -182,6 +182,8 @@ h2 {
     border-radius: 15px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.3);
     backdrop-filter: blur(10px);
+    max-width: 400px;
+    margin: 0 auto;
 }
 
 .signup_form form, .login_form form{
@@ -225,4 +227,18 @@ h2 {
     cursor: grab;
     user-select: none;
     scrollbar-width: none;
+}
+
+.trailer {
+    text-align: center;
+    margin-top: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.trailer iframe{
+    flex: 0 0 auto;
+    width: 600px;
+    height: 315px;
+    border-radius: 10px;
 }
