@@ -8,7 +8,7 @@ from urllib.parse import quote_plus
 import secrets
 from datetime import datetime, timedelta
 from flask_mail import Mail, Message
-
+import os
 
 app = Flask(__name__)
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
