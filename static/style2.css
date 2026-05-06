@@ -56,6 +56,7 @@ body {
     border-radius: 15px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.3);
     backdrop-filter: blur(10px);
+    max-width: 600px;
 }
 
 input {
@@ -102,7 +103,7 @@ h2 {
 }
 
 .container {
-    max-width: 800px;
+    max-width: 1300px;
     margin: auto;
 }
 
@@ -231,14 +232,19 @@ h2 {
 
 .trailer {
     text-align: center;
-    margin-top: 20px;
     border-radius: 10px;
     overflow: hidden;
 }
 
 .trailer iframe{
     flex: 0 0 auto;
-    width: 600px;
+    width: 550px;
     height: 315px;
     border-radius: 10px;
+}
+.f_info{
+    display: flex;            
+    gap: 30px;                
+    padding: 10px 0;
+    overflow-x: auto;
 }
