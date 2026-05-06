@@ -58,36 +58,37 @@
 
         {% if movie %}
         <h2><u>{{ movie.Title }}</u></h2> <br>
-        
-            <div class="profile">
-                <img src="{{movie.Poster}}" alt="{{ movie.Title }}">
-                <div class="info">
-                    <p><strong>Year:</strong> {{ movie.Year }}</p>
-                    <p><strong>Genre:</strong> {{ movie.Genre }}</p>
-                    <p><strong>Duration:</strong> {{ movie.Runtime }}</p>
-                    <p><strong>Director:</strong> {{ movie.Director }}</p>
-                    <p>
-                        <strong>Plot:</strong>
-                        <span id="plot-text">{{ movie.Plot }}</span>
-                        <a href="{{ url_for('fullplot') }}" id="plot-toggle" style="color: #119da4; text-decoration: none;">view more</a>
-                    </p>
+            <div class="f_info">
+                    <div class="profile">
+                        <img src="{{movie.Poster}}" alt="{{ movie.Title }}">
+                        <div class="info">
+                            <p><strong>Year:</strong> {{ movie.Year }}</p>
+                            <p><strong>Genre:</strong> {{ movie.Genre }}</p>
+                            <p><strong>Duration:</strong> {{ movie.Runtime }}</p>
+                            <p><strong>Director:</strong> {{ movie.Director }}</p>
+                            <p>
+                                <strong>Plot:</strong>
+                                <span id="plot-text">{{ movie.Plot }}</span>
+                                <a href="{{ url_for('fullplot') }}" id="plot-toggle" style="color: #119da4; text-decoration: none;">view more</a>
+                            </p>
+                        </div>
+                    </div>
+                {% endif %}
+            
+            
+                {% if trailer_key %}
+                <div class="trailer">
+                    <iframe 
+                    width="100%"
+                    height="315"
+                    src="https://www.youtube.com/embed/{{ trailer_key }}"
+                    frameborder="0"
+                    allowfullscreen>
+                    </iframe>
                 </div>
-            </div>
-        {% endif %}
+                {% endif %}
+        </div>
     </div>
-    
-    {% if trailer_key %}
-    <div class="trailer">
-        <h3>Trailer</h3>
-        <iframe 
-        width="100%"
-        height="315"
-        src="https://www.youtube.com/embed/{{ trailer_key }}"
-        frameborder="0"
-        allowfullscreen>
-        </iframe>
-    </div>
-    {% endif %}
 
         {% if alt %}
             <h3>Alternative Results</h3>
